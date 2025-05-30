@@ -2,7 +2,9 @@ import React from 'react'
 
 const eventos = () => {
   return (
-    <div>eventos</div>
+    <div>
+      <h1>eventos</h1>
+    </div>
   )
 }
 
