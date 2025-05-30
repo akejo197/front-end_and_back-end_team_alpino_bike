@@ -16,7 +16,7 @@ export const login = async (req, res) => {
 
         if (!user || user.password	!== password) {
             
-            return res.status(401).json({ message: 'credenciales invalidads' });
+            return res.status(401).json({ message: 'Correo o Contraseña incorrectos' });
         }
 
 
