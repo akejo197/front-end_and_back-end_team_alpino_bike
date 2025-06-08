@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 //en la siguiente linea carga los diferentes parametros y los diferentes estados que se van a se
@@ -42,6 +42,17 @@ const handleLogin = async (e) => {
     setError(error.response?.data?.message || 'Error al iniciar sesión');
     }
   }
+
+  useEffect(() => {
+    // creamos una funcion para verificar si el usuario ya esta logueado
+    const storeUser = localStorage.getItem('user');
+    // si el usuario ya esta logueado, se redirige a la pagina de eventos
+    // se utiliza el useNavigate para redirigir al usuario a la pagina de eventos
+
+    if (storeUser) {
+      navigate('/eventos');
+    }
+  }, [navigate]);
 
 
   return (
@@ -86,7 +97,6 @@ const handleLogin = async (e) => {
           <div className="flex flex-row items-center justify-between w-full mt-5">
             <button type="submit" className="bg-red-600 text-white font-bold w-full text-center py-2 px-2 rounded-lg   hover:bg-yellow-100 hover:text-black  mt-2">
               Iniciar sesión
-
             </button>
           </div>
 
