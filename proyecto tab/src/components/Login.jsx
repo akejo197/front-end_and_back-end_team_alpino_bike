@@ -7,6 +7,8 @@ const login = () => {
   const [correo, setCorreo] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [user, setUser] = useState(null);
+  // useState se utiliza para crear un estado local llamado user, que inicialmente es null. Este estado se utilizará para almacenar la información del usuario.
   const navigate = useNavigate();
 
 // funcion que se encarga de manejar el inicio de sesion y previene que se ejecute cualquier cosa por defecto
@@ -32,10 +34,20 @@ const handleLogin = async (e) => {
       password
     });
     // si la peticion es exitosa, se redirige al usuario a la pagina de eventos
+    // se guarda el usuario en el estado user
+    const userData = res.data.user;
     // se guarda el token en el localStorage para poder utilizarlo en otras peticiones
-    localStorage.setItem('user', JSON.stringify(res.data.user));
+    localStorage.setItem('user', JSON.stringify(userData));
+    // se guarda el usuario en el estado user
+    // se utiliza el setUser para actualizar el estado user con los datos del usuario
+    setUser(userData);
     // se utiliza el useNavigate para redirigir al usuario a la pagina de eventos
+   //redirigir segun el rol del usuario
+   if(userData.rol === 'admin') {
+      navigate('/admin-dashboard');
+    } else
     navigate('/eventos');
+  // se redirige al usuario a la pagina de eventos
   } catch (error) {
     console.error(error);
     // si la peticion falla, se captura el error y se muestra un mensaje de error
@@ -43,16 +55,7 @@ const handleLogin = async (e) => {
     }
   }
 
-  useEffect(() => {
-    // creamos una funcion para verificar si el usuario ya esta logueado
-    const storeUser = localStorage.getItem('user');
-    // si el usuario ya esta logueado, se redirige a la pagina de eventos
-    // se utiliza el useNavigate para redirigir al usuario a la pagina de eventos
-
-    if (storeUser) {
-      navigate('/eventos');
-    }
-  }, [navigate]);
+  
 
 
   return (

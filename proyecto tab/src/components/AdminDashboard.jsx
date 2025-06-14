@@ -1,12 +1,33 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 const adminDashboard = () => {
+
+
+const navigate = useNavigate();
+//   navegate se utiliza para redirigir al usuario a otra ruta, en este caso, a la página de inicio ("/") después de que se haya cargado el componente.
+const [user, setUser] = useState(null);
+// useState se utiliza para crear un estado local llamado user, que inicialmente es null. Este estado se utilizará para almacenar la información del usuario.
+
+
+
+useEffect(() => {
+  const storedUser = JSON.parse(localStorage.getItem('user'));
+  if(!storedUser || storedUser.rol !== 'admin') {
+    navigate('/login');
+  } else {
+    setUser(storedUser);
+  }
+}, [navigate]);
+
+
+
   return (
     <div className='min-h-screen bg-blue-400 flex flex-col items-center justify-center w-full '>
       <div className="flex flex-row items-center justify-center w-full mt-5 fixed top-0 right-0 left-0 p-5  ">
         <Link to="/eventos" className=' text-red-600 font-bold w-48 text-center py-2 px-2 rounded-lg   hover:bg-red-500 hover:text-white  mt-2 '>Eventos</Link>
-                    <Link to="/perfil" className=' text-red-600 font-bold w-48 text-center py-2 px-2 rounded-lg   hover:bg-red-500 hover:text-white  mt-2 '>Perfil</Link>
+                    <Link to="/admi-perfil" className=' text-red-600 font-bold w-48 text-center py-2 px-2 rounded-lg   hover:bg-red-500 hover:text-white  mt-2 '>Perfil</Link>
       </div>
 
       <div className='flex flex-col items-center justify-center text-white text-3xl  w-full h-10 mt-30'>
